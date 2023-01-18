@@ -1,9 +1,30 @@
 const { Member } = require('../models')
+const { Op } = require('sequelize')
 
 class MemberController {
     static async getMember(req, res) {
         try {
             let members = await Member.findAll()
+            res.json(members)
+        } catch (err) {
+            res.json({ msg: err })
+        }
+    }
+
+    static async infoMember(req, res) {
+        try {
+            let id = +req.params.memberId
+            let memberData = await Member.findByPk(id)
+            res.json(memberData)
+        } catch (err) {
+            res.json({ msg: err })
+        }
+    }
+
+    static async searchMember(req, res) {
+        try {
+            let name = req.params.memberName
+            let members = await Member.findAll({ where: { name: { [Op.substring]: name } } })
             res.json(members)
         } catch (err) {
             res.json({ msg: err })

@@ -1,9 +1,20 @@
-const { Booking } = require('../models')
+const { Booking, Member } = require('../models')
 
 class BookingController {
     static async getBooking(req, res) {
         try {
-            let bookings = await Booking.findAll()
+            let courtId = +req.params.courtId
+
+            let date = new Date(req.params.date)
+            date = date.toJSON().slice(0, 10)
+
+            let bookings = await Booking.findAll({
+                where: {
+                    CourtId: courtId,
+                    dateSchedule: date
+                }, include: Member
+            })
+
             res.json(bookings)
         } catch (err) {
             res.json({ msg: err })
