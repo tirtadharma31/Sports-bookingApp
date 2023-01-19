@@ -1,7 +1,8 @@
 import { useState } from "react"
-import { loginMember } from "../../fetchs/memberFetch"
+import { Link } from "react-router-dom"
+import { loginMember } from "../fetchs/memberFetch"
 
-const LoginPage = (props) => {
+const Login = (props) => {
     const { cbLogin } = props
     const [form, setForm] = useState({
         userName: '', password: ''
@@ -40,7 +41,9 @@ const LoginPage = (props) => {
                     <div className="form-floating mb-3">
                         <div className="row">
                             <div className="col">
-                                <p className="text-primary fw-semibold">Don't have member account yet?</p>
+                                <Link to="/register">
+                                    <p className="text-primary fw-semibold">Don't have member account yet?</p>
+                                </Link>
                             </div>
                             <div className="col text-end">
                                 <button type="button" className="btn" style={{ backgroundColor: "#694E52", color: "whitesmoke" }}
@@ -54,4 +57,4 @@ const LoginPage = (props) => {
     )
 }
 
-export default LoginPage
+export default Login

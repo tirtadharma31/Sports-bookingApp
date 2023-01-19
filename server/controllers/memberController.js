@@ -37,11 +37,12 @@ class MemberController {
         try {
             const { userName, password } = req.body
             let member = await Member.findOne({ where: { userName: userName } })
+            const { name } = member
 
             if (member) {
                 if (decrypt(password, member.password)) {
                     let accessToken = generateToken(member)
-                    res.json({ accessToken })
+                    res.json({ accessToken, name})
                 }
                 else {
                     res.json({ msg: 'Incorrect Password' })

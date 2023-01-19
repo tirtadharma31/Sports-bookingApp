@@ -11,24 +11,27 @@ import HomePage from '../pages/user/homePage.js'
 import { Sidebar } from './Sidebar.js'
 import { Footer } from './Footer.js'
 
-const MainContent = () => {
-    let role = 'user'
+const MainContent = (props) => {
+    const { cbLogin } = props
+    let role = localStorage.getItem('role')
+    // let token = localStorage.getItem('accessToken')
+    // console.log(token)
 
     return (
         role === 'admin'
             // admin
             ? <div className='row w-100'>
                 <div style={{ display: 'flex' }}>
-                    <Sidebar style={{ flex: '1 auto' }}></Sidebar>
+                    <Sidebar cbLogin={cbLogin} style={{ flex: '1 auto' }}></Sidebar>
                     <div className='row'>
                         <Routes>
-                            <Route path='/' element={<MemberDataPage />} />
+                            <Route path='/' element={<CourtDataPage />} />
                             <Route path='/bookings/:courtId' element={<BookingDataPage />} />
                             <Route path='/courts' element={<CourtDataPage />} />
                             <Route path='/editCourt/:courtId' element={<EditCourt />} />
                             <Route path='/members' element={<MemberDataPage />} />
                             <Route path='/editMember/:memberId' element={<EditMember />} />
-                            <Route path='/payments' element={<MemberDataPage />} />
+                            {/* <Route path='/payment' element={<MemberDataPage />} /> */}
                         </Routes>
 
                         {/* footer */}
@@ -42,7 +45,7 @@ const MainContent = () => {
             // user
             : <div>
                 <Routes>
-                    <Route path='/' element={<HomePage />} />
+                    <Route path='/' element={<HomePage cbLogin={cbLogin} />} />
                 </Routes>
             </div>
     )

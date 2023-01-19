@@ -1,10 +1,11 @@
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap/dist/js/bootstrap.bundle.js';
 import { useEffect, useState } from 'react';
+import { Routes, Route } from 'react-router-dom'
 
-// import MainContent from './components/Maincontent';
-import LoginPage from './pages/user/loginPage';
-import HomePage from './pages/user/homePage';
+import MainContent from './components/Maincontent';
+import Login from './components/login';
+import Register from './components/register';
 
 function App() {
   const [loginStatus, setLoginstatus] = useState(false)
@@ -17,12 +18,15 @@ function App() {
 
   return (
     // <div className="container-fluid bg-light">
-    // <MainContent></MainContent>
-    <div className="container-fluid">
+    <div className="">
       {
         loginStatus
-          ? <HomePage cbLogin={cbLogin}></HomePage>
-          : <LoginPage cbLogin={cbLogin}></LoginPage>
+          ? <MainContent cbLogin={cbLogin}></MainContent>
+          // : <Login cbLogin={cbLogin}></Login>
+          : <Routes>
+            <Route path='/' element={<Login cbLogin={cbLogin} />} ></Route>
+            <Route path='/register' element={<Register />} ></Route>
+          </Routes>
       }
 
     </div>

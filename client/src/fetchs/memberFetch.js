@@ -95,12 +95,29 @@ export const loginMember = async (loginData) => {
         let response = await axios.post(`${URL}/login`, loginData)
         let token = response.data.accessToken
 
+        let role = 'user'
+        if(response.data.name === "Admin GS"){
+            role = 'admin'
+        }
+
         if (token) {
             localStorage.setItem('accessToken', token)
+            localStorage.setItem('role', role)
             return true
         }else{
             return false
         }
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+export const register = async (newData) => {
+    try {
+        let addurl = URL + '/add'
+        let response = await axios.post(addurl, newData)
+
+        return response
     } catch (err) {
         console.log(err)
     }
