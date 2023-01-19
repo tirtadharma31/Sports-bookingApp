@@ -1,5 +1,7 @@
-const { Member } = require('../models')
 const { Op } = require('sequelize')
+const { Member } = require('../models')
+const { decrypt } = require('../helpers/bcrypt')
+const { generateToken } = require('../helpers/jsonwebtoken')
 
 class MemberController {
     static async getMember(req, res) {
@@ -26,6 +28,27 @@ class MemberController {
             let name = req.params.memberName
             let members = await Member.findAll({ where: { name: { [Op.substring]: name } } })
             res.json(members)
+        } catch (err) {
+            res.json({ msg: err })
+        }
+    }
+
+    static async loginMember(req, res) {
+        try {
+            const { userName, password } = req.body
+            let member = await Member.findOne({ where: { userName: userName } })
+
+            if (member) {
+                if (decrypt(password, member.password)) {
+                    let accessToken = generateToken(member)
+                    res.json({ accessToken })
+                }
+                else {
+                    res.json({ msg: 'Incorrect Password' })
+                }
+            } else {
+                res.json({ msg: `Member not found` })
+            }
         } catch (err) {
             res.json({ msg: err })
         }

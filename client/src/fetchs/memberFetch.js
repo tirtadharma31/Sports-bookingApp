@@ -89,3 +89,19 @@ export const editMemberData = async (newData) => {
         console.log(err)
     }
 }
+
+export const loginMember = async (loginData) => {
+    try {
+        let response = await axios.post(`${URL}/login`, loginData)
+        let token = response.data.accessToken
+
+        if (token) {
+            localStorage.setItem('accessToken', token)
+            return true
+        }else{
+            return false
+        }
+    } catch (err) {
+        console.log(err)
+    }
+}
